@@ -1,3 +1,7 @@
+---
+layout: internal
+---
+
 # ASP.NET Core
 
 Fontes:

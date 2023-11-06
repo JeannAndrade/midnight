@@ -1,3 +1,7 @@
+---
+layout: internal
+---
+
 # Code Review (Table of Contents)
 
 Este é um resumo do curso [Code Review: Best Practices](https://www.pluralsight.com/courses/code-review-best-practices) by Andrejs Doroninss at Plural Sight.

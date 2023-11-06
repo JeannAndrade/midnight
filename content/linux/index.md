@@ -1,3 +1,7 @@
+---
+layout: internal
+---
+
 # Principais comandos do terminal do Linux
 
 Foram usados como fonte:

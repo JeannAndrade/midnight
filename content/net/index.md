@@ -1,3 +1,7 @@
+---
+layout: internal
+---
+
 # Microsoft .Net
 
 ## Table of contents

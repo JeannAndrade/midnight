@@ -1,3 +1,7 @@
+---
+layout: internal
+---
+
 dotnet
 Listar os sdks presentes na máquina
 dotnet --list-sdks

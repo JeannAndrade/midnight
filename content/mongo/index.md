@@ -1,3 +1,7 @@
+---
+layout: internal
+---
+
 Instalação no Linux -> <https://docs.mongodb.com/manual/administration/install-on-linux/>
 
 <https://docs.microsoft.com/pt-br/windows/wsl/tutorials/wsl-database#install-mongodb>

@@ -1,3 +1,7 @@
+---
+layout: internal
+---
+
 # dotnet cli
 
 ## Table of contents
