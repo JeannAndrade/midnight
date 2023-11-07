@@ -1,3 +1,7 @@
+---
+layout: internal
+---
+
 # Exemplo de *dockerfile* para uma aplicação Node.js, sem acesso a banco de dados
 
 ```docker

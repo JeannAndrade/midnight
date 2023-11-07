@@ -20,8 +20,8 @@ Para clonar o repositório: git clone <https://github.com/nigelpoulton/ddd-book.
 1. [DockerFile](#dockerfile)
 1. [Como conteinerizar um app a partir de um código fonte](#como-contêinerizar-um-app-a-partir-de-um-código-fonte)
 1. [Compose](#compose)
-1. [Hands-On Docker](hands_on/index.md)
-1. [Como instalar o Docker](como_instalar/index.md)
+1. [Hands-On Docker](./hands_on/index.html)
+1. [Como instalar o Docker](./como_instalar/index.html)
 
 ## Comandos do CLI
 
@@ -66,6 +66,12 @@ Compose
 | Comando | Descrição | Exemplo |
 | ----- | ----- | ------ |
 | `docker compose version` | Para verificar a versão do docker-compose instalado | |
+| `docker compose up` | Para levantar a aplicação | deve ser rodado na pasta onde está o compose.yaml |
+| `docker compose up -f compose_file.yaml` | Para levantar a aplicação | caso o arquivo compose esteja com outro nome |
+| `docker compose -f docker-compose.yml build` | processa o conteúdo do arquivo compose e cria as imagens para os container que ele contém. | |
+| `docker compose stop` | para os containers. Containers, redes e volumes são mantidos para serem iniciados novamente. | |
+| `docker compose down` | para os serviços e remove Containers, redes e volumes | |
+| `docker compose ls` | lista os containers que foram criados para os serviços definidos no arquivo compose. | |
 
 Volumes
 
@@ -153,7 +159,7 @@ Para buscar no docker hub através do CLI, use o comando `docker search string_b
 
 `docker search alpine --filter "is-official=true"`
 
-* [Principais imagens usadas em projetos ASP.Net Core](imagens_aspnetcore/index.md)
+* [Principais imagens usadas em projetos ASP.Net Core](./imagens_aspnetcore/index.html)
 
 [top](#docker-table-of-contents)
 
@@ -229,8 +235,8 @@ O *Dockerfile* é um arquivo de texto que diz ao docker com construir uma imagem
 
 Aqui é preciso criar um catálogo de exemplos com as principais opções que uso:
 
-1. [ASP.Net Core 6, sem banco](dockerfiles/aspnet6_no_db.md)
-1. [Node.js, sem banco](dockerfiles/node_no_db.md)
+1. [ASP.Net Core 6, sem banco](./dockerfiles/aspnet6_no_db.html)
+1. [Node.js, sem banco](./dockerfiles/node_no_db.html)
 
 Para criar uma imagem a partir do *Dockerfile*, use docker build
 
@@ -375,14 +381,20 @@ docker buildx build --builder=container \
 
 ## Compose
 
-É uma ferramenta que facilita o gerenciamento de aplicações multi-containers. Compose usa um arquivo YAML para definir aplicações microservices. O nome padrão desse arquivo é *compose.yaml*, mas *compose.yml* também é aceito.
+É uma ferramenta que facilita o gerenciamento de aplicações multi-containers. Compose usa um arquivo YAML para definir aplicações microservices. O nome padrão desse arquivo é *compose.yaml*, mas *compose.yml* também é aceito. A ideia é substituir os comandos de criação de imagem e execução para cada container como foi feito até o momento por instruções em um único arquivo. Dessa forma o arquivo compose tem que tratar de cada aspecto do par imagem/container, como criar imagem e executar o run, associando portas, volumes e redes.
 
 Exemplo de um arquivo compose simples:
 
-```docker
+```yaml
+networks:
+  counter-net:
+
+volumes:
+  counter-vol:
+
 services:
-  web-fe:
-    build: .
+  web-fe: #service name
+    build: . # build a image using dockerfile in this path
     command: python app.py
     ports:
       - target: 8080
@@ -397,13 +409,23 @@ services:
     image: "redis:alpine"
     networks:
       counter-net:
-
-networks:
-  counter-net:
-
-volumes:
-  counter-vol:
 ```
+
+Palavras chaves essenciais usadas no arquivo de compose:
+
+| Palavra | Descrição | Palavra | Descrição |
+| ----- | ----- | ----- | ----- |
+| Version |especifica a versão do esquema do arquivo compose | volume | lista os volumes que serão usados pelos containers definidos no arquivo compose. |
+| networks | lista as redes que serão usadas pelos containers definidos no arquivo compose | services | denota a seção do arquivo compose que descreve containers. |
+| image | especifica a imagem que deve ser usada para criar o container. | build | denota a seção que especifica como a imagem para um container será criada. |
+| context | especifica a “pasta contexto” que será usada enquanto o docker estiver construindo a imagem para um container. |dockerfile | especifica o Dockerfile que será usado para construir a imagem para um container. |
+| environment | define uma variável de ambiente que será aplicada a um container. | depends_on | usada para definir dependências entre serviços. |
+
+Nota: Na verdade, não precisamos da opção command: python app.py no arquivo Compose, pois ela já está definida no Dockerfile. Mostramos aqui para que você saiba como funciona. Você também pode usar o Compose para sobrescrever instruções definidas nos Dockerfiles.
+
+Normalmente o comando `docker compose up` será usado com a flag  `--detach` para abrir o aplicativo em segundo plano. No entanto, podemos trazê-lo em primeiro plano usando `docker compose up &` para nos devolver a janela do terminal. Isso força o Compose a enviar todas as mensagens para a janela do terminal que usaremos mais tarde.
+
+[top](#docker-table-of-contents)
 
 Organizar, estava no Google Drive
 
@@ -442,27 +464,7 @@ services:
         networks:
             - backend
 …
-Palavras chaves essenciais usadas no arquivo de compose
-Version - especifica a versão do esquema do arquivo compose.
-volume - lista os volumes que serão usados pelos containers definidos no arquivo compose.
-networks - lista as redes que serão usadas pelos containers definidos no arquivo compose.
-services - denota a seção do arquivo compose que descreve containers.
-image - especifica a imagem que deve ser usada para criar o container.
-build - denota a seção que especifica como a imagem para um container será criada.
-context - especifica a “pasta contexto” que será usada enquanto o docker estiver construindo a imagem para um container.
-dockerfile - especifica o Dockerfile que será usado para construir a imagem para um container.
-environment - define uma variável de ambiente que será aplicada a um container.
-depends_on - usada para definir dependências entre serviços.
-O arquivo de composição é processado com o seguinte comando
-docker compose -f docker-compose.yml build
-Os containers, redes e volumes em um arquivo de composição são criados e iniciados
-docker compose up
-Principais comandos do docker compose
-docker compose build - processa o conteúdo do arquivo compose e cria as imagens para os container que ele contém.
-docker compose up - cria os container, redes e volumes definidos no arquivo compose e inicia os containers.
-docker compose stop - para os containers. Containers, redes e volumes são mantidos para serem iniciados novamente.
-docker compose down - para os serviços e remove Containers, redes e volumes
-docker compose ls - lista os containers que foram criados para os serviços definidos no arquivo compose.
+
 Docker Swarms
 Conceito - é um cluster de servidores que executam containers. Existem nós de trabalho que executam os contêineres e nós gerenciadores que determinam quais contêineres são executados em nós individuais e garantem que o número certo de contêineres esteja em execução para cada serviço. Swarms tentam se recuperar automaticamente quando os contêineres ou os nós falham.
 Desenvolvimento containerizado

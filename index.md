@@ -2,6 +2,8 @@
 layout: default
 ---
 
+# Home (Table of Contents)
+
 ## Hard Skills
 
 1. [Git](./content/git/index.html)

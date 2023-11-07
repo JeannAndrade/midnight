@@ -584,9 +584,9 @@ Você pode configurar atalhos no git usando o comando de configuração `git con
 
 Página oficial para os 3 maiores versionadores que eu utilizo:
 
-* <a href="https://docs.github.com/pt/authentication/connecting-to-github-with-ssh/generating-a-new-ssh-key-and-adding-it-to-the-ssh-agent" target="_blank">Github</a>
-* <a href="https://docs.gitlab.com/ee/user/ssh.html#generate-an-ssh-key-pair" target="_blank">Gitlab</a>
-* <a href="https://www.atlassian.com/br/git/tutorials/git-ssh" target="_blank">Bitbucket</a>
+* [Github](https://docs.github.com/pt/authentication/connecting-to-github-with-ssh/generating-a-new-ssh-key-and-adding-it-to-the-ssh-agent)
+* [Gitlab](https://docs.gitlab.com/ee/user/ssh.html#generate-an-ssh-key-pair)
+* [Bitbucket](https://www.atlassian.com/br/git/tutorials/git-ssh)
 
 ### Gerando a chave
 
@@ -615,8 +615,10 @@ Abra o Git Bash, que provavelmente foi instalado pelo instalador do Git.
 
 ### Adicionar a chave gerado ao seu versionador
 
-* [github](https://docs.github.com/pt/authentication/connecting-to-github-with-ssh/adding-a-new-ssh-key-to-your-github-account)
-* [gitlab](https://docs.gitlab.com/ee/user/ssh.html#add-an-ssh-key-to-your-gitlab-account)
+* github
+  * <https://docs.github.com/pt/authentication/connecting-to-github-with-ssh/adding-a-new-ssh-key-to-your-github-account>
+* gitlab
+  * <https://docs.gitlab.com/ee/user/ssh.html#add-an-ssh-key-to-your-gitlab-account>
 
 ### Testando a comunicação com o servidor através do ssh
 

@@ -1,3 +1,7 @@
+---
+layout: internal
+---
+
 # Como instalar o Docker
 
 ## Docker Desktop
@@ -22,4 +26,4 @@ Siga a série de comandos do livro para fazer a instalação no Linux 22.04 LTS.
 
 Esse [link](https://phoenixnap.com/kb/docker-permission-denied) mostra como resolver
 
-[top](/docker/index.md#docker-table-of-contents)
+[top](/content/docker/index.html#docker-table-of-contents)

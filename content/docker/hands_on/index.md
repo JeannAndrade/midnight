@@ -1,3 +1,7 @@
+---
+layout: internal
+---
+
 # Hands-On Docker
 
 1. [Exercício 1 - ASP.NET - Demonstração prática do ciclo de build, login, push e run](#exercício-1)

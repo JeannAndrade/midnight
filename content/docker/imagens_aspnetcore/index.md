@@ -1,3 +1,7 @@
+---
+layout: internal
+---
+
 # Principais imagens usadas em projetos ASP.Net Core
 
 Fonte: <https://hub.docker.com/_/microsoft-dotnet>

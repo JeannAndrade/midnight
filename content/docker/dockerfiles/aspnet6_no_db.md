@@ -1,3 +1,7 @@
+---
+layout: internal
+---
+
 # Exemplo de *dockerfile* para uma aplicação ASP.NET Core 6, sem acesso a banco de dados
 
 ```docker
