@@ -176,6 +176,7 @@ Se você precisar voltar o texto na tela, utilize as teclas Ctrl + r.
 ## Opções para o comando SET
 
 :set
+
 | Comando | Descrição |
 | ------ | ------ |
 | autowrite aw | Salva a cada alteração |

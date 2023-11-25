@@ -24,13 +24,19 @@ layout: internal
 ### Criar um projeto novo
 
 ```dotnet
-dotnet new globaljson --sdk-version 6.0.100 --output FirstProject
-dotnet new mvc --no-https --output FirstProject --framework net6.0
-dotnet new sln -o FirstProject
-dotnet sln FirstProject add FirstProject
+dotnet new globaljson --sdk-version 7.0.100 --output PartyInvites
+dotnet new mvc --no-https --output PartyInvites --framework net7.0
+dotnet new sln -o PartyInvites
+dotnet sln PartyInvites add PartyInvites
 ```
 
-I use the global.json template to help ensure you get the expected results when following the examples in this book. Microsoft is good at ensuring backward compatibility with .NET Core releases, but breaking changes do occur, and it is a good idea to add a global.json file to projects so that everyone in the development team is using the same version.
+A Microsoft é boa em garantir compatibilidade com versões anteriores do .NET Core, mas ocorrem alterações significativas e é uma boa ideia adicionar um arquivo global.json aos projetos para que todos na equipe de desenvolvimento usem a mesma versão.
+
+### Observando por alterações no projeto
+
+`dotnet watch`
+
+O comando `dotnet watch` é um observador de arquivos. Quando detecta uma alteração, ele executa o comando `dotnet run` ou um comando dotnet especificado. Se ele executar `dotnet run` e a alteração tiver suporte para *hot reloads*, ele recarregará a quente o aplicativo especificado. Se a alteração não for suportada, o aplicativo será reiniciado. Este processo permite o desenvolvimento iterativo rápido a partir da linha de comando.
 
 ### Criar um projeto F# do tipo console
 

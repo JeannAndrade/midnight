@@ -10,9 +10,14 @@ Fontes:
 
 ## Table of contents
 
-1. [Conceitos básicos](#comandos-básicos)
+1. [Conceitos básicos](#conceitos-básicos)
+    1. [model binding]
+1. [As "Tag helper" mais usadas](#tag-helper-mais-utilizadas)
+    1. [asp-action](#criando-links-com-asp-action)
+    1. [asp-for](#referenciado-atributos-com-o-asp-for)
+1. [Dúvidas frequentes](./duvidasFrequentes/index.html)
 
-## Comandos básicos
+## Conceitos básicos
 
 Os principais componentes do ASP.Net Core podem ser visto da seguintes forma:
 
@@ -39,3 +44,37 @@ O Blazor permite que C# seja usado para escrever aplicativos do lado do cliente.
 ### ASP.NET Core Platform
 
 A plataforma ASP.NET Core contém os recursos de baixo nível necessários para receber e processar solicitações HTTP e criar respostas. Há um servidor HTTP integrado, um sistema de componentes de middleware para lidar com solicitações e recursos básicos dos quais as estruturas do aplicativo dependem, como roteamento de URL e o mecanismo de visualização Razor.
+
+### Model binding
+
+Um recurso útil do ASP.NET Core por meio do qual os dados recebidos são analisados e os pares chave-valor na *request* HTTP são usados
+para preencher propriedades de tipos de modelo de domínio.
+
+## Tag helper mais utilizadas
+
+### Criando links com `asp-action`
+
+No exemplo abaixo RsvpForm é o nome de uma action na mesma controller para a qual a view está sendo renderizada.
+
+```html
+<a asp-action="RsvpForm">RSVP Now</a>
+```
+
+outro exemplo em um form:
+
+```html
+<form asp-action="RsvpForm" method="post">
+```
+
+### Referenciado atributos com o `asp-for`
+
+Vincula um elemento HTML à propriedade do modelo.
+
+```html
+<div>
+  <label asp-for="Name">Your name:</label>
+  <input asp-for="Name" />
+</div>
+```
+
+O atributo `asp-for` no elemento label define o valor do do atributo *for*. O atributo `asp-for` no elemento input define os elementos *id* e *name*.

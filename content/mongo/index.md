@@ -2,21 +2,46 @@
 layout: internal
 ---
 
-Instalação no Linux -> <https://docs.mongodb.com/manual/administration/install-on-linux/>
+# MongoDB
 
-<https://docs.microsoft.com/pt-br/windows/wsl/tutorials/wsl-database#install-mongodb>
+Fontes:
 
-**********************************************************
-***********  Iniciar o serviço   *************************
-**********************************************************
+* Anotações do curso: MongoDB do básico ao avançado (c/ Mongoose e projetos), do Matheus Battisti na Udemy
+* Página do MongoDB no [Docker Hub](https://hub.docker.com/r/mongodb/mongodb-community-server)
 
-sudo service mongodb start --> Você deverá ver uma resposta [OK].
-sudo service mongodb status  --> Você deverá ver uma resposta [Falha] se nenhum banco de dados estiver em execução.
-sudo service mongodb stop --> para interromper a execução do banco de dados.
+## Relacional vs Não relacional
 
-**********************************************************
-***********     Conceitos        *************************
-**********************************************************
+* Os bancos relacionais demandam uma forte configuração de tabelas, colunas e relações entre tabelas para o seu funcionamento;
+* Os não relacionais não são rigorosos quanto a isso, podemos criar colunas quando um dado é inserido;
+* Essa característica gera flexibilidade para o não relacional e também poder ser sinônimo de desorganização;
+* Apesar do nome, o não relacional pode ter relações entre collections.
+
+## Instalando o MongoDB
+
+A melhor maneira de se usar o MongoDB é através do Docker. Neste [endereço](https://www.mongodb.com/compatibility/docker) tem as instruções necessárias para subir um container com o MongoDB. A seguir fiz o meu resumo da parte que me interessa.
+
+Vamos criar um container docker a partir de uma imagem do MongoDB versão *6.0-ubi8*. A ideia é acessar esse Mongo através do Compass no endereço mongodb://user:pass@localhost:27017, sendo que para isso publiquei a porta 27017, criei um volume para persistência dos dados e também estou usando variáveis de ambiente para inicializar o MongoDB com o usuário root.
+
+```bash
+#Criando um volume
+docker volume create mongodb-vol
+# Cria uma variável para setar a tag do mongo que irá rodar
+export MONGODB_VERSION=6.0-ubi8
+# Executa o container
+docker run --name mongodb -d -p 27017:27017 -v mongodb-vol:/data/db -e MONGO_INITDB_ROOT_USERNAME=user -e MONGO_INITDB_ROOT_PASSWORD=pass mongodb/mongodb-community-server:$MONGODB_VERSION
+```
+
+## Instalando o Compass
+
+Primeiro baixe o pacote do compass [veja aqui a última versão](https://www.mongodb.com/docs/compass/current/install/)
+
+`wget https://downloads.mongodb.com/compass/mongodb-compass_1.40.4_amd64.deb`
+
+Em seguida instale o pacote baixado
+
+`sudo dpkg -i mongodb-compass_1.40.4_amd64.deb`
+
+## Conceitos
 
 No mongoDb não existe o conceito de tabela, o que se guarda são collections
 
@@ -26,10 +51,10 @@ Relacionamento entre Collections
  One to One
  Subdocuments
 
-Mongoose - um ODM, ou seja um framework para se trabalhar com o MongoDb de uma forma mais simplista
+Mongoose - um ODM, ou seja um framework para se trabalhar com o MongoDB de uma forma mais simplista
 
-Na minha máquina o MongoDb já foi instalado, o passo a passo está no arquivo de configuração do ambiente de desenvolvimento
-Para testar não para o terminal. Utilize o aplicativo MongoDb Compass que foi instalado junto com a aplicação.
+Na minha máquina o MongoDB já foi instalado, o passo a passo está no arquivo de configuração do ambiente de desenvolvimento
+Para testar não para o terminal. Utilize o aplicativo MongoDB Compass que foi instalado junto com a aplicação.
 No próprio aplicativo já existe um MongoSh, que é o shell para o mongo. se quiser ver funcionando rode o seguinte comando
 
 Para listar os bancos de dados

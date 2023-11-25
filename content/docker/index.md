@@ -12,14 +12,23 @@ Este é um resumo de dois livros:
 Para clonar o repositório: git clone <https://github.com/nigelpoulton/ddd-book.git>
 
 1. [Comandos do CLI](#comandos-do-cli)
-1. [Conceitos](#conceitos)
+    1. [Verificação](#comandos-de-verificação)
+    1. [Imagem](#comandos-sobre-imagem)
+    1. [Contêiner](#comandos-sobre-contêiner)
+    1. [Compose](#comandos-sobre-compose)
+    1. [Multipass](#comandos-sobre-multipass)
+    1. [Volume](#comandos-sobre-volume)
+    1. [Network](#comandos-sobre-network)
+    1. [Docker Hub](#comandos-sobre-docker-hub)
+1. [A tecnologia Docker](#a-tecnologia-docker)
 1. [Imagem](#imagem)
-1. [contêiner](#contêiners)
+1. [Contêiner](#cont%C3%AAineres)
 1. [Volume](#volumes)
 1. [Network](#network-software-defined-network-sdn)
 1. [DockerFile](#dockerfile)
-1. [Como conteinerizar um app a partir de um código fonte](#como-contêinerizar-um-app-a-partir-de-um-código-fonte)
-1. [Compose](#compose)
+1. [Como por um app em contêiner a partir do código fonte](#como-contêinerizar-um-app-a-partir-de-um-código-fonte)
+1. [Docker Compose](#compose)
+1. [Docker Swarm](#docker-swarms)
 1. [Hands-On Docker](./hands_on/index.html)
 1. [Como instalar o Docker](./como_instalar/index.html)
 
@@ -30,11 +39,11 @@ Para clonar o repositório: git clone <https://github.com/nigelpoulton/ddd-book.
 | Comando | Descrição
 | ----- | ----- |
 | `docker version` | Obtém informações sobre as versões e testa se o client e o Deamon (server) estão executando e falando um com o outro |
-| `docker info` | Obtém informações mais detalhadas do client e do server sobre os recursos que o Docker está gerenciando, como contêiners, imagens, volumes... |
+| `docker info` | Obtém informações mais detalhadas do client e do server sobre os recursos que o Docker está gerenciando, como contêineres, imagens, volumes... |
 
 ### Comandos associados a recursos
 
-Imagens
+#### Comandos sobre imagem
 
 | Comando | Descrição | Exemplo |
 | ----- | ----- | ------ |
@@ -47,33 +56,73 @@ Imagens
 | `docker rmi $(docker images -q) -f` | remover todas as imagens de uma só vez. | `docker rmi $(docker images -q) -f` |
 | `docker inspect vtest` | inspeciona uma imagem. É especialmente útil na hora de descobrir se uma imagem usa volume | |
 
-contêiners
+___
+
+#### Comandos sobre contêiner
 
 | Comando | Descrição | Exemplo |
 | ----- | ----- | ------ |
 | `docker run <image> <app>` | Executa um contêiner usando uma imagem como base | Ex1: `docker run -it ubuntu:latest /bin/bash`; Ex2: `docker run -d --name web1 --publish 8080:8080 test:latest` |
-| `docker ps` | Lista os contêiner em execução. Use -a para listar inclusive os contêiners parados | `docker ps` |
+| `docker ps` | Lista os contêiner em execução. Use -a para listar inclusive os contêineres parados | `docker ps` |
 | `Press Ctrl-PQ` | para sair do contêiner sem finalizá-lo. O terminal sairá do terminal do contêiner para o terminal do host | |
 | `docker exec` | anexa seu shell ao terminal de um contêiner em execução | `docker exec -it vigilant_borg bash` |
 | `docker stop` | Para a execução do contêiner | `docker stop id_contêiner` ou `docker stop $(docker ps -q)` para parar todos |
 | `docker start` | Reinicializa um container parado com o comando stop | `docker start id_contêiner` ou `docker start $(docker ps -aq)` para iniciar todos |
 | `docker rm` | Elimina o contêiner |`docker rm id_container` |
-| `docker rm $(docker ps -aq)` | Elimina todos os contêiners de uma vez |`docker rm -f $(docker ps -aq)` vai forçar a parada do contêiner e depois eliminá-lo |
+| `docker rm $(docker ps -aq)` | Elimina todos os contêineres de uma vez |`docker rm -f $(docker ps -aq)` vai forçar a parada do contêiner e depois eliminá-lo |
 | `docker logs` | Exibe os logs gerados pelo contêiner | `docker logs nome_container` e para exibir o log de forma contínua `docker logs -f nome_container` |
 
-Compose
+Argumentos para o comando run:
+
+| Comando | Descrição |
+| ----- | ----- |
+| -e, --env | configura uma variável de ambiente |
+| --name | associa um nome ao contêiner |
+| --network | conecta o contêiner a uma rede definida por software |
+| -d | executa o contêiner em background e print o contêiner ID |
+| -p, --publish | cria um mapeamento entre portas, externa e interna ao contêiner |
+| --rm | remove o contêiner quando ele para. |
+| -v, --volume | configura um volume que irá prover um conteúdo para uma pasta no sistema de arquivos do contêiner. |
+
+___
+
+#### Comandos sobre Compose
 
 | Comando | Descrição | Exemplo |
 | ----- | ----- | ------ |
 | `docker compose version` | Para verificar a versão do docker-compose instalado | |
-| `docker compose up` | Para levantar a aplicação | deve ser rodado na pasta onde está o compose.yaml |
+| `docker compose up` | Para levantar a aplicação | deve ser rodado na pasta onde está o compose.yaml. `--detach` para subir em background |
 | `docker compose up -f compose_file.yaml` | Para levantar a aplicação | caso o arquivo compose esteja com outro nome |
 | `docker compose -f docker-compose.yml build` | processa o conteúdo do arquivo compose e cria as imagens para os container que ele contém. | |
 | `docker compose stop` | para os containers. Containers, redes e volumes são mantidos para serem iniciados novamente. | |
-| `docker compose down` | para os serviços e remove Containers, redes e volumes | |
+| `docker compose down` | para os serviços e remove Containers e redes. Volumes são mantidos por serem persistentes | `--volumes` para remover os volumes também. `--rmi all` irá apagar as imagens criadas também |
 | `docker compose ls` | lista os containers que foram criados para os serviços definidos no arquivo compose. | |
+| `docker compose top` | lista os processos em execução em cada contêiner. | Os números PID retornados são os números PID vistos no host Docker (não nos contêineres). |
+| `docker compose rm` |  Apaga um app compose que já esteja parado | deleta somente os contêineres e as redes |
+| `docker compose restart` | reinicia um aplicação compose que estava parada | |
 
-Volumes
+___
+
+#### Comandos sobre Multipass
+
+| Comando | Descrição | Exemplo |
+| ----- | ----- | ------ |
+| `multipass launch --name foo` | Launch an instance (by default you get the current Ubuntu LTS) | `multipass launch docker --name node1` para rodar uma instância do linux baseada na imagem do docker |
+| `multipass shell node1` | Connect to the VM. You’re now logged on to the VM and can run regular Docker commands. Just type exit to log out of the VM.| |
+| `multipass exec foo -- lsb_release -a` | Run commands in that instance, try running bash (logout or ctrl-d to quit) | |
+| `multipass list` | See your instances | |
+| `multipass stop foo bar` | Stop instances | |
+| `multipass start foo` | Start instances | |
+| `multipass delete foo` | Clean up what you don’t need | |
+| `multipass purge` | Clean up what you don’t need | |
+| `multipass find` | Find alternate images to launch | |
+| `multipass launch -n bar --cloud-init cloud-config.yaml` | Pass a cloud-init metadata file to an instance on launch. See [using cloud-init with multipass](https://blog.ubuntu.com/2018/04/02/using-cloud-init-with-multipass) for more details | |
+| `multipass help` | Get help | |
+| `multipass help <command>` | Get help for a command | |
+
+___
+
+#### Comandos sobre Volume
 
 | Comando | Descrição |
 | ----- | ----- |
@@ -82,7 +131,9 @@ Volumes
 | `docker volume rm` | Remove um volume |
 | `docker volume rm $(docker volume ls -q)` | Remove todos os volumes de uma vez |
 
-Networks
+___
+
+#### Comandos sobre network
 
 | Comando | Descrição |
 | ----- | ----- |
@@ -91,9 +142,9 @@ Networks
 | `docker network connect frontend productapp1` | Conecta uma contêiner a uma rede |
 | `docker network rm` | Para remover uma rede |
 | `docker network rm $(docker network ls -q)` | Para remover todas as redes |
-| `docker network inspect bridge` | Lista todos os contêiners que estão na rede bridge e exibe o IP atribuído a eles para que possa receber requisições |
+| `docker network inspect bridge` | Lista todos os contêineres que estão na rede bridge e exibe o IP atribuído a eles para que possa receber requisições |
 
-### Comandos associados ao Docker Hub
+### Comandos sobre Docker Hub
 
 | Comando | Descrição | Exemplo |
 | ----- | ----- | ------ |
@@ -107,9 +158,7 @@ Para entender as partes envolvidas, considere docker.io/nigelpoulton/ddd-book:ch
 
 [top](#docker-table-of-contents)
 
-## Conceitos
-
-### A tecnologia Docker
+## A tecnologia Docker
 
 Quando se fala em Docker como uma tecnologia, 3 partes fundamentais se destacam:
 
@@ -121,7 +170,7 @@ Quando se fala em Docker como uma tecnologia, 3 partes fundamentais se destacam:
 
 O runtime opera no nível mais baixo e é responsável por iniciar e parar contêineres. Docker implementa uma arquitetura de runtime em camadas com runtimes de alto e baixo nível que funcionam juntos.
 
-O runtime de baixo nível é chamado *runc* e é a implementação de referência da especificação de runtime da Open contêiners Initiative (OCI). Sua função é fazer interface com o sistema operacional subjacente e iniciar e parar contêineres. Cada contêiner em um nó Docker foi criado e iniciado por uma instância do *runc*.
+O runtime de baixo nível é chamado *runc* e é a implementação de referência da especificação de runtime da Open contêineres Initiative (OCI). Sua função é fazer interface com o sistema operacional subjacente e iniciar e parar contêineres. Cada contêiner em um nó Docker foi criado e iniciado por uma instância do *runc*.
 
 O runtime de nível superior é chamado *containerd*. Ele gerencia todo o ciclo de vida do contêiner, incluindo baixar imagens e gerenciar as instâncias *runc*. *containerd* é pronunciado “container-dee”. Uma instalação típica do Docker possui um único processo *containerd* de longa duração que instrui o *runc* a iniciar e parar contêineres.
 
@@ -139,7 +188,7 @@ Se você baixar a imagem de um contêiner de aplicativo, como nginx:latest, obte
 
 Também é importante dizer que cada imagem recebe seu próprio ID exclusivo. Ao fazer referência a imagens, você pode consultá-las usando IDs ou nomes. Se você estiver trabalhando com IDs de imagens, geralmente basta digitar os primeiros caracteres do ID - desde que seja único, o Docker saberá a qual imagem você se refere.
 
-O repositório local de imagens num host Linux é /var/lib/docker/<storage-driver>. Se vc está usando Docker em seu Mac ou PC com Docker Desktop, tudo estará rodando dentro de uma VM.
+O repositório local de imagens num host Linux é /var/lib/docker/\<storage-driver\>. Se vc está usando Docker em seu Mac ou PC com Docker Desktop, tudo estará rodando dentro de uma VM.
 
 ### Mais sobre imagens
 
@@ -163,11 +212,11 @@ Para buscar no docker hub através do CLI, use o comando `docker search string_b
 
 [top](#docker-table-of-contents)
 
-## contêiners
+## contêineres
 
 O conceito de contêiner é similar ao conceito de Objeto. Se a imagem é uma classe, o contêiner será um objeto criado a partir de uma imagem. Basicamente um contêiner é uma imagem em execução.
 
-### Mais sobre contêiners
+### Mais sobre contêineres
 
 O parâmetro -it conecta a janela do terminal corrente ao shell do contêiner.
 
@@ -215,6 +264,16 @@ Por fim, no momento de criar o contêiner, é preciso ligar essas duas entidades
 
 `docker run --name vtest -v caixa_verde:/caixa1 -v caixa_amarela:/caixa2 -v caixa_azul:/caixa3 vtest`
 
+Para saber em qual local do host o volume foi criado, vc pode usar o comando `docker inspect` apontando para o volume. Ex:
+
+`docker inspect multi-container_counter-vol | grep Mount`
+
+Neste exemplo o *docker compose* chamado *multi-container* criou um volume chamado *counter-vol* e estamos inspecionado o volume, pedindo para filtrar o resultado listando somente as linhas que começam com "Mount"
+
+Resultado é algo parecido com:
+
+"Mountpoint": "/var/lib/docker/volumes/multi-container_counter-vol/_data",
+
 [top](#docker-table-of-contents)
 
 ## Network (Software-Defined Network (SDN))
@@ -223,7 +282,7 @@ Redes definidas por software são usadas para conectar contêiner. Estas redes s
 
 Os principais redes do Docker de escopo local são:
 
-* bridge - é o tipo de rede padrão, sendo que o comando run coloca os contêiners criados nesta rede.
+* bridge - é o tipo de rede padrão, sendo que o comando run coloca os contêineres criados nesta rede.
 * host - é a rede do servidor host.
 * none - é uma rede que não possui conectividade e que pode ser usada para isolar completamente os contêineres.
 
@@ -271,7 +330,7 @@ Contêineres têm tudo a ver com simplificar os processos construir, empacotar e
 
 A imagem abaixo ilustra o processo:
 
-![Fluxo para conteinerizar um app](img/fluxo_containerizar_app.png)
+![Fluxo para contêinerizar um app](img/fluxo_containerizar_app.png)
 
 ### Um exemplo a partir de um código fonte do github
 
@@ -397,8 +456,7 @@ services:
     build: . # build a image using dockerfile in this path
     command: python app.py
     ports:
-      - target: 8080
-        published: 5001
+      - "8080:5001"
     networks:
       - counter-net
     volumes:
@@ -409,6 +467,40 @@ services:
     image: "redis:alpine"
     networks:
       counter-net:
+```
+
+Exemplo 2:
+
+```yaml
+volumes:
+  exampleapp05-vol:
+networks:
+  exampleapp05-net:
+services:
+  web-fe:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    ports:
+      - "3000:80"
+    networks:
+      - exampleapp05-net
+    environment:
+      - DBHOST=mariadb
+    depends_on:
+      - mariadb
+  mariadb:
+    image: mariadb:11.1.2
+    networks:
+      - exampleapp05-net
+    volumes:
+      - exampleapp05-vol:/var/lib/mysql
+    environment:
+      - MARIADB_USER=example-user
+      - MARIADB_PASSWORD=my_cool_secret
+      - MARIADB_DATABASE=products
+      - MARIADB_ROOT_PASSWORD=my-secret-pw
+
 ```
 
 Palavras chaves essenciais usadas no arquivo de compose:
@@ -429,42 +521,17 @@ Normalmente o comando `docker compose up` será usado com a flag  `--detach` par
 
 Organizar, estava no Google Drive
 
-Argumentos para o comando run
--e, --env - configura uma variável de ambiente
---name - associa um nome ao contêiner
---network - conecta o contêiner a uma rede definida por software
--d - executa o contêiner em backgroud e print o contêiner ID
--p, --publish - cria um mapeamento entre portas, externa e interna ao contêiner
---rm - remove o contêiner quando ele para.
--v, --volume - configura um volume que irá prover um conteúdo para uma pasta no sistema de arquivos do contêiner.
+## Docker Swarms
 
-Docker Compose
-Definição - é usado para descrever aplicações complexas que requerem múltiplos containers, volumes e redes. A descrição da aplicação é escrita em um “compose file”, usando o formato YAML.
-Exemplo:
-version: "3"
-volumes:
-    productdata:
-networks:
-    frontend:
-    backend:
-services:
-    mysql:
-        image: "mysql:8.0.0"
-        volumes:
-            - productdata:/var/lib/mysql
-        networks:
-            - backend
-        environment:
-            - MYSQL_ROOT_PASSWORD=mysecret
-            - bind-address=0.0.0.0
-    dbinit:
-        build:
-            context: .
-            dockerfile: Dockerfile
-        networks:
-            - backend
-…
+Docker Swarm são duas coisas:
 
-Docker Swarms
+1. Um cluster seguro de nível empresarial de hosts Docker
+1. Um orquestrador de microsserviços
+
+No que diz respeito ao clustering, o Swarm agrupa um ou mais nós Docker e permite gerenciá-los como um cluster. Pronto para uso, você obtém um armazenamento de cluster distribuído criptografado, redes criptografadas, TLS mútuo, tokens de junção de cluster seguros e uma PKI que facilita o gerenciamento e a rotação de certificados. Você pode até mesmo adicionar e remover nós sem interrupções.
+
+No que diz respeito à orquestração, o Swarm permite implantar e gerenciar aplicativos complexos de microsserviços com facilidade. Você pode definir seus aplicativos em arquivos declarativos e implantá-los no swarm com comandos nativos do Docker. Você pode até realizar atualizações contínuas, reversões e operações de escalonamento. Novamente, tudo com comandos simples.
+
+Docker Swarm é semelhante ao Kubernetes – ambos orquestram aplicativos em contêineres. O Kubernetes tem muito mais impulso e uma comunidade e ecossistema mais ativos. No entanto, o Swarm é muito mais fácil de usar e é uma escolha popular para muitas pequenas e médias empresas.
+
 Conceito - é um cluster de servidores que executam containers. Existem nós de trabalho que executam os contêineres e nós gerenciadores que determinam quais contêineres são executados em nós individuais e garantem que o número certo de contêineres esteja em execução para cada serviço. Swarms tentam se recuperar automaticamente quando os contêineres ou os nós falham.
-Desenvolvimento containerizado

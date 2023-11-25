@@ -149,7 +149,7 @@ M  lib/simplegit.rb
 
 Para levar um arquivo de Untracked para Staged:
 
-```git
+```bash
 git add file_name
 git add directory_name
 git add .
@@ -380,6 +380,7 @@ Typically, people use this functionality to mark release points (v1.0, v2.0 and 
 ### Listing Your Tags
 
 `git tag`
+
 `git tag -l "v1.8.5*"` -> para listar apenas as tags da série 1.8.5 (`-l` ou `--list`)
 
 ### Creating annotated Tags
@@ -419,6 +420,7 @@ If you have a lot of tags that you want to push up at once, you can also use the
 ### Deletando tags
 
 Deletando a tag localmente: `git tag -d v1.4-lw`
+
 Depois, para deletar do remoto: `git push origin --delete v1.4-lw`
 
 ### Vendo o conteúdo de uma tag
