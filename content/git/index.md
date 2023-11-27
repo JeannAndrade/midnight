@@ -37,11 +37,11 @@ Fontes:
 
 If you ever need help while using Git, there are three equivalent ways to get the comprehensive manual page (manpage) help for any of the Git commands:
 
-```git
-git help <verb>
-git <verb> --help
-man git-<verb>
-```
+`git help <verb>`
+
+`git <verb> --help`
+
+`man git-<verb>`
 
  [top](#git-table-of-contents)
 
@@ -55,9 +55,9 @@ man git-<verb>
 
 O Git vem com uma ferramenta chamada git config que permite obter e definir variáveis de configuração que controlam todos os aspectos da aparência e operação do Git. Essas variáveis podem ser armazenadas em três locais diferentes:
 
-1. Arquivo /etc/gitconfig: Contém valores aplicados a cada usuário no sistema e todos os seus repositórios. Se você passar a opção `--system` para git config, ele lê e grava especificamente neste arquivo. (Como este é um arquivo de configuração do sistema, você precisaria de informações administrativas ou privilégio de superusuário para fazer alterações nele.)
-2. Arquivo ~/.gitconfig ou ~/.config/git/config: Valores específicos pessoalmente para você, o usuário. Você pode fazer o Git ler e gravar neste arquivo especificamente passando a opção `--global`, e isso afeta todos os repositórios com os quais você trabalha em seu sistema.
-3. arquivo de configuração no diretório Git (ou seja, .git/config) de qualquer repositório que você esteja usando atualmente: Específico para esse único repositório. Você pode forçar o Git a ler e gravar neste arquivo com a opção `--local`, mas esse é na verdade o padrão.
+1. Arquivo /etc/gitconfig: Contém valores aplicados a cada usuário no sistema e todos os seus repositórios. Se você passar a opção *--system* para git config, ele lê e grava especificamente neste arquivo. (Como este é um arquivo de configuração do sistema, você precisaria de informações administrativas ou privilégio de superusuário para fazer alterações nele.)
+2. Arquivo ~/.gitconfig ou ~/.config/git/config: Valores específicos pessoalmente para você, o usuário. Você pode fazer o Git ler e gravar neste arquivo especificamente passando a opção *--global*, e isso afeta todos os repositórios com os quais você trabalha em seu sistema.
+3. arquivo de configuração no diretório Git (ou seja, .git/config) de qualquer repositório que você esteja usando atualmente: Específico para esse único repositório. Você pode forçar o Git a ler e gravar neste arquivo com a opção *--local*, mas esse é na verdade o padrão.
 
 Para ver todas as configurações e onde elas estão configuradas, entre com o comando:
 
@@ -71,9 +71,13 @@ Para configurar a sua identidade:
 
 Para configurar o editor padrão:
 
+`git config --global color.ui true`
+
 `git config --global core.editor emacs`
 
-Caso opte pelo notepad++ `git config --global core.editor "'C:/Program Files/Notepad++/notepad++.exe' -multiInst -notabbar -nosession -noPlugin"`
+Caso opte pelo notepad++:
+
+`git config --global core.editor "'C:/Program Files/Notepad++/notepad++.exe' -multiInst -notabbar -nosession -noPlugin"`
 
 Para configurar a ferramenta de merge preferida (opendiff kdiff3 tkdiff xxdiff meld tortoisemerge gvimdiff diffuse diffmerge ecmerge
 p4merge araxis bc3 codecompare vimdiff emerge):
@@ -100,14 +104,13 @@ Para clonar um servidor e atribuir o nome da pasta que ele terá na sua máquina
 
 `git clone <url> <nome-pasta>`
 
-url pode ser o endereço de um servidor git criado com o `git init --bare` ou um endereço web válido
+url pode ser o endereço de um servidor git criado com o *git init --bare* ou um endereço web válido
 
 Exemplos:
 
-```git
-git clone <https://github.com/libgit2/libgit2>
-git clone <https://github.com/libgit2/libgit2> mylibgit
-```
+`git clone <https://github.com/libgit2/libgit2>`
+
+`git clone <https://github.com/libgit2/libgit2> mylibgit`
 
 Para clonar um branch específico de um projeto
 
@@ -124,9 +127,9 @@ Os seguintes protocolos são suportados pelo git:
 
 ### Checking the Status of Your Files
 
-The main tool you use to determine which files are in which state is the `git status` command.
+The main tool you use to determine which files are in which state is the *git status* command.
 
-Se quiser uma saída mais simplificada para o comando este comando, use o parâmetro `-s` ou `--short`
+Se quiser uma saída mais simplificada para o comando este comando, use o parâmetro *-s* ou *--short*
 
 | Símbolo | Descrição |
 | ----------- | ----------- |
@@ -149,11 +152,11 @@ M  lib/simplegit.rb
 
 Para levar um arquivo de Untracked para Staged:
 
-```bash
-git add file_name
-git add directory_name
-git add .
-```
+`git add file_name`
+
+`git add directory_name`
+
+`git add .`
 
 The git add command takes a path name for either a file or a directory; if it’s a directory, the command adds all the files in that directory recursively.
 
@@ -200,17 +203,19 @@ Para commitar tudo que está em staged o comando é:
 
 Remember that anything that is still unstaged — any files you have created or modified that you haven’t run git add on since you edited them — won’t go into this commit. They will stay as modified files on your disk.
 
-A variante `git commit -v` abrirá o editor da sua preferência com o resultado do 'diff' para que seja possível ver exatamente o que está sendo comitado.
+A variante abaixo para abrir o editor da sua preferência com o resultado do 'diff' para que seja possível ver exatamente o que está sendo comitado.
+
+`git commit -v`
 
 Outro opção é adicionar a mensagem inline:
 
 `git commit -m "mensagem do commit"`
 
-Quando vc precisa corrigir um commit, ou porque esquecer de acrescentar um arquivo ou porque errou na mensagem e deseja corrigir, use o `git add` para acrescentar o que falta e depois use o `commit --amend`. Neste caso o commit anterior nem será exibido no histórico. O nome commit passará a ser a única entrada no histórico.
+Quando vc precisa corrigir um commit, ou porque esquecer de acrescentar um arquivo ou porque errou na mensagem e deseja corrigir, use o *git add* para acrescentar o que falta e depois use o *commit --amend*. Neste caso o commit anterior nem será exibido no histórico. O nome commit passará a ser a única entrada no histórico.
 
 ### Skipping the Staging Area
 
-Adicionando a opção `-a` ao command `git commit` fará que qualquer arquivo monitorado pelo git, mas ainda não incluído na area de stage, seja adicionado automaticamente. Arquivos não monitorados pelo git ficarão de fora do commit.
+Adicionando a opção *-a* ao command *git commit* fará que qualquer arquivo monitorado pelo git, mas ainda não incluído na area de stage, seja adicionado automaticamente. Arquivos não monitorados pelo git ficarão de fora do commit.
 
 ### Removing Files
 
@@ -218,13 +223,13 @@ Para remover um arquivo do Git, você tem que removê-lo dos arquivos monitorado
 
 `git rm file_name`
 
-Se você já modificou o arquivo ou já o adicionou a area de stage, você deve forçar a remoção com o opção `-f`.
+Se você já modificou o arquivo ou já o adicionou a area de stage, você deve forçar a remoção com o opção -f.
 
-Se quiser remover o arquivo da area de stage, mas ainda sim quer mantê-lo no disco, use a opção `--cached`. Isso é útil quando você acidentalmente adiciona a area de stage algum arquivo importante, que é necessário para o projeto, mas vc não precisa mantê-lo no Git.
+Se quiser remover o arquivo da area de stage, mas ainda sim quer mantê-lo no disco, use a opção *--cached*. Isso é útil quando você acidentalmente adiciona a area de stage algum arquivo importante, que é necessário para o projeto, mas vc não precisa mantê-lo no Git.
 
 ### Renomeando arquivos
 
-Assim como ocorre com o Linux, renomear um arquivo é feito através do comando `mv`.
+Assim como ocorre com o Linux, renomear um arquivo é feito através do comando *mv*.
 
 `git mv file_from file_to`
 
@@ -234,19 +239,21 @@ O próprio Git considera essa operação com um renomeio.
 
 ## Viewing the Commit History
 
-Para ver o histórico de alterações do repositório, o comando é o `git log`
+Para ver o histórico de alterações do repositório, o comando é:
 
-De forma padrão, o `git log` irá exibir a lista de commits na ordem reversa cronologicamente, as mais recentes irão aparece primeiro.
+`git log`
 
-A opção `-p` ou `--patch` mostra a diferença adicionada em cada commit e vc ainda pode adicionar um limite na quantidade de commits a serem exibidos.
+De forma padrão, o *git log* irá exibir a lista de commits na ordem reversa cronologicamente, as mais recentes irão aparece primeiro.
+
+A opção *-p* ou *--patch* mostra a diferença adicionada em cada commit e vc ainda pode adicionar um limite na quantidade de commits a serem exibidos.
 
 `git log -p -2`
 
-Outra opção importante é o `--pretty` que pode ser oneline, short, full, fuller, format
+Outra opção importante é o *--pretty* que pode ser oneline, short, full, fuller, format
 
 `git log --stat`
 
-A opção `--stat` imprime abaixo de cada entrada de commit uma lista de arquivos modificados, quantos arquivos foram alterados e quantas linhas nesses arquivos foram adicionadas e removidas. Também coloca um resumo das informações no final.
+A opção *--stat* imprime abaixo de cada entrada de commit uma lista de arquivos modificados, quantos arquivos foram alterados e quantas linhas nesses arquivos foram adicionadas e removidas. Também coloca um resumo das informações no final.
 
 `git log --pretty=format:"%h - %an, %ar : %s" -10`
 
@@ -260,7 +267,7 @@ A opção `--stat` imprime abaixo de cada entrada de commit uma lista de arquivo
 | %p | Abbreviated parent hashes |
 | %an | Author name |
 | %ae | Author email |
-| %ad | Author date (format respects the `--date=option`) |
+| %ad | Author date (format respects the *--date=option*) |
 | %ar | Author date, relative |
 | %cn | Committer name |
 | %ce | Committer email |
@@ -274,17 +281,21 @@ O Author é a pessoa que escreveu originalmente o trabalho, enquanto o Committer
 
 | Opção | Efeito | Exemplo |
 | ----- | -----| ----- |
-| `--since` | commits desde | `--since=2.weeks` `--since="2008-01-15"` `--since="2 years 1 day 3 minutes ago"` |
-| `--until` | commits até | `--since="2008-01-15"` `--until="2008-02-15"` |
-| `--author` | commits por autor | `--author='Junio C Hamano'` |
-| `--grep` | filtra por palavra na mensagem | `--grep="layout"` |
+| --since | commits desde | *--since=2.weeks* ou  *--since="2008-01-15"* ou *--since="2 years 1 day 3 minutes ago"* |
+| --until | commits até | --since="2008-01-15" --until="2008-02-15" |
+| --author | commits por autor | --author='Junio C Hamano' |
+| --grep | filtra por palavra na mensagem | --grep="layout" |
 
-You can specify more than one instance of both the `--author` and `--grep` search criteria, which will limit the commit output to commits that match any of the
-`--author` patterns and any of the `--grep` patterns; however, adding the `--all-match` option further limits the output to just those commits that match all `--grep` patterns.
+You can specify more than one instance of both the --author and --grep search criteria, which will limit the commit output to commits that match any of the
+--author patterns and any of the --grep patterns; however, adding the --all-match option further limits the output to just those commits that match all --grep patterns.
 
-`git log --oneline --decorate` O decorate mostra para onde os ponteiros dos branches estão apontando.
+`git log --oneline --decorate`
 
-`git log --all` irá exibir todos os branches, mesmo aqueles que estão a frente do HEAD no momento.
+O decorate mostra para onde os ponteiros dos branches estão apontando.
+
+`git log --all`
+
+irá exibir todos os branches, mesmo aqueles que estão a frente do HEAD no momento.
 
 A parte de log tem outras opções muito interessantes sobre filtros, na página 44 até 46.
 
@@ -296,13 +307,15 @@ A parte de log tem outras opções muito interessantes sobre filtros, na página
 
 `git reset HEAD file_name`
 
-O arquivo foi colocado na area de stage com o comando `add`, mas agora vc precisa retirá-lo dessa area.
+O arquivo foi colocado na area de stage com o comando *add*, mas agora vc precisa retirá-lo dessa area.
 
 ### Desfazendo alterações em arquivo no diretório de trabalho
 
 `git checkout -- file_name`
 
-Aqui o arquivo foi alterado, mas ainda não foi dado o add. Dessa forma ele está alterado, mas não está na area de stage. Ex. `git checkout -- CONTRIBUTING.md`
+Aqui o arquivo foi alterado, mas ainda não foi dado o add. Dessa forma ele está alterado, mas não está na area de stage. Ex.:
+
+`git checkout -- CONTRIBUTING.md`
 
 [top](#git-table-of-contents)
 
@@ -310,21 +323,29 @@ Aqui o arquivo foi alterado, mas ainda não foi dado o add. Dessa forma ele est�
 
 ### Para ver quais servidores remotos estão configurados
 
-```git
-git remote (para listar os repositórios remotos que o repositório local conhece)
-git remote -v (verbose para listar mais detalhes)
-```
+`git remote`
+
+para listar os repositórios remotos que o repositório local conhece
+
+`git remote -v`
+
+verbose para listar mais detalhes
 
 ### Para fazer um repositório local conhecer um repositório remoto
 
-```git
-git remote add <name> <url> (a url pode ser um endereço local, na rede, na web)
-git remote add pb <https://github.com/paulboone/ticgit>
-```
+`git remote add <name> <url>`
+
+a url pode ser um endereço local, na rede, na web
+
+`git remote add pb <https://github.com/paulboone/ticgit>`
 
 ### Inspecionar um remote
 
-Para obter mais informações sobre um remote, vc usa o comando `git remote show nome_do_remote`. Ex.:  `git remote show origin`
+Para obter mais informações sobre um remote, vc usa o comando
+
+`git remote show nome_do_remote`
+
+`git remote show origin`
 
 Esse comando mostra:
 
@@ -356,7 +377,9 @@ The command goes out to that remote project and pulls down all the data from tha
 
 If your current branch is set up to track a remote branch (see the next section and Git Branching for more information), you can use the git pull command to automatically fetch and then merge that remote branch into your current branch.
 
-Para baixar um branch específico, use `git pull nome-servidor-remoto nome-branch`
+Para baixar um branch específico, use:
+
+`git pull nome-servidor-remoto nome-branch`
 
 ### Diferença entre fetch e pull
 
@@ -381,7 +404,9 @@ Typically, people use this functionality to mark release points (v1.0, v2.0 and 
 
 `git tag`
 
-`git tag -l "v1.8.5*"` -> para listar apenas as tags da série 1.8.5 (`-l` ou `--list`)
+`git tag -l "v1.8.5*"`
+
+para listar apenas as tags da série 1.8.5 (-l ou --list)
 
 ### Creating annotated Tags
 
@@ -391,15 +416,19 @@ Annotated tags, however, are stored as full objects in the Git database. They’
 
 ### Creating lightweight Tags
 
-A lightweight tag is very much like a branch that doesn’t change — it’s just a pointer to a specific commit. To create a lightweight tag, don’t supply any of the `-a`, `-s`, or `-m` options, just provide a tag name
+A lightweight tag is very much like a branch that doesn’t change — it’s just a pointer to a specific commit. To create a lightweight tag, don’t supply any of the -a, -s, or -m options, just provide a tag name
 
 `git tag v1.4-lw`
 
 ### Tagging Later
 
-Você também pode adicionar tag em commit que já não é o último commit feito. Para isso, comece com o `git log --pretty=oneline` para listar os commits já realizados.
+Você também pode adicionar tag em commit que já não é o último commit feito. Para isso, comece com o comando abaixo para listar os commits já realizados.
 
-Depois crie a tag adicionando o checksum ou parte dele ao final do commando `git tag -a v1.2 9fceb02`
+`git log --pretty=oneline`
+
+Depois crie a tag adicionando o checksum ou parte dele ao final do commando:
+
+`git tag -a v1.2 9fceb02`
 
 ### Show tag data
 
@@ -413,7 +442,7 @@ By default, the git push command doesn’t transfer tags to remote servers. You 
 
 `git push origin v1.5`
 
-If you have a lot of tags that you want to push up at once, you can also use the `--tags` option to the git push command.
+If you have a lot of tags that you want to push up at once, you can also use the --tags option to the git push command.
 
 `git push origin --tags`
 
@@ -451,7 +480,9 @@ Para ver o último commit em cada branch:
 
 `git branch -v`
 
-As opções úteis `--merged` e `--no-merged` podem filtrar esta lista para ramificações que você já mergiou ou ainda não com o branch em que está atualmente. Para ver quais branches já estão mergiados no branch em que você está, você pode executar `git branch --merged`.
+As opções úteis *--merged* e *--no-merged* podem filtrar esta lista para ramificações que você já mergiou ou ainda não com o branch em que está atualmente. Para ver quais branches já estão mergiados no branch em que você está, você pode executar:
+
+`git branch --merged`
 
 Você também pode passar o branch a ser usado como referência:
 
@@ -488,7 +519,9 @@ Esse comando cria o branch iss53 e alterna o HEAD para ele.
 
 ### Branches remotos
 
-`git ls-remote <remote>` ou `git remote show <remote>`
+`git ls-remote <remote>`
+
+ou `git remote show <remote>`
 
 ## Merging
 
@@ -496,10 +529,9 @@ Esse comando cria o branch iss53 e alterna o HEAD para ele.
 
 No merge você junta as alterações de um outro branch no branch apontado pelo HEAD.
 
-```git
-git checkout master
-git merge hotfix
-```
+`git checkout master`
+
+`git merge hotfix`
 
 ### "Fast-forward" merge
 
@@ -521,17 +553,15 @@ Neste caso o novo merge não foi do tipo “fast-forward”. O git criou um novo
 
 Com o comando rebase vocÊ pode pegar todas as mudanças que foram commitadas em um branch e reaplicá-las em um branch diferente.
 
-```git
-git checkout experiment
-git rebase master
-```
+`git checkout experiment`
+
+`git rebase master`
 
 Feito isso, agora é possível fazer um commit do tipo "fast-forward" nesse branch:
 
-```git
-git checkout master
-git merge experiment
-```
+`git checkout master`
+
+`git merge experiment`
 
 Ilustrando o processo:
 
@@ -567,18 +597,20 @@ Alguns sites com referência para o assunto:
 
 ## Aliases (atalhos)
 
-Você pode configurar atalhos no git usando o comando de configuração `git config --global alias`
+Você pode configurar atalhos no git usando o comando de configuração:
+
+`git config --global alias`
 
 | Configuração | Comando |
 | ------- | ------- |
-| `git config --global alias.co checkout` | `git co` |
-| `git config --global alias.br branch` | `git br` |
-| `git config --global alias.ci commit` | `git ci` |
-| `git config --global alias.st status` | `git st` |
-| `git config --global alias.pl pull` | `git pl` |
-| `git config --global alias.ph push` | `git ph` |
-| `git config --global alias.unstage 'reset HEAD --'` | `git unstage fileA` |
-| `git config --global alias.last 'log -1 HEAD'` | `git last` |
+| `git config --global alias.co checkout` | git co |
+| `git config --global alias.br branch` | git br |
+| `git config --global alias.ci commit` | git ci |
+| `git config --global alias.st status` | git st |
+| `git config --global alias.pl pull` | git pl |
+| `git config --global alias.ph push` | git ph |
+| `git config --global alias.unstage 'reset HEAD --'` | git unstage fileA |
+| `git config --global alias.last 'log -1 HEAD'` | git last |
 
 [top](#git-table-of-contents)
 
@@ -594,26 +626,32 @@ Página oficial para os 3 maiores versionadores que eu utilizo:
 
 * Inicie verificando se há chaves ssh registradas no seu Linux: `ls -al /home/jeann/.ssh`
   * troquei "jeann" pelo seu usuário.
-* No Terminal entre com o comando: `ssh-keygen -t ed25519 -C "<your_email@example.com>"`
+* No Terminal entre com o comando: `ssh-keygen -t ed25519 -C "your_email@example.com"`
   * Irá aparecer a pergunta: "Enter a file in which to save the key (/home/YOU/.ssh/ALGORITHM):[Press enter]". Aqui vc vai precisar alterar o nome do arquivo caso já existam chaves cadastradas com o nome padrão, senão vai dar erro.
 * Vai pedir uma senha. No prompt, digite uma frase secreta segura.
 
 ### Guardando a chave no Ubuntu
 
 1. `eval "$(ssh-agent -s)"`
-1. `ssh-add -k ~/.ssh/id_ed25519` (cuidado, verificar antes o nome do arquivo da chave, que pode ser diferente)
+1. `ssh-add -k ~/.ssh/id_ed25519`
+
+cuidado, verificar antes o nome do arquivo da chave, que pode ser diferente
 
 ### Guardando a chave no Mac
 
 1. `eval "$(ssh-agent -s)"`
-1. `ssh-add --apple-use-keychain ~/.ssh/id_ed25519`  (cuidado, verificar antes o nome do arquivo da chave, que pode ser diferente)
+1. `ssh-add --apple-use-keychain ~/.ssh/id_ed25519`
+
+cuidado, verificar antes o nome do arquivo da chave, que pode ser diferente
 
 ### Guardando a chave no Windows
 
 Abra o Git Bash, que provavelmente foi instalado pelo instalador do Git.
 
 1. `eval "$(ssh-agent -s)"`
-1. `ssh-add ~/.ssh/id_ed25519`   (cuidado, verificar antes o nome do arquivo da chave, que pode ser diferente)
+1. `ssh-add ~/.ssh/id_ed25519`
+
+cuidado, verificar antes o nome do arquivo da chave, que pode ser diferente
 
 ### Adicionar a chave gerado ao seu versionador
 
@@ -626,6 +664,6 @@ Abra o Git Bash, que provavelmente foi instalado pelo instalador do Git.
 
 `ssh -T git@github.com`
 
-Também vai funcionar para `git@gitlab.com` e `git@bitbucket.com`
+Também vai funcionar para *<git@gitlab.com>* e *<git@bitbucket.com>*
 
 [top](#git-table-of-contents)

@@ -22,14 +22,17 @@ A melhor maneira de se usar o MongoDB é através do Docker. Neste [endereço](h
 
 Vamos criar um container docker a partir de uma imagem do MongoDB versão *6.0-ubi8*. A ideia é acessar esse Mongo através do Compass no endereço mongodb://user:pass@localhost:27017, sendo que para isso publiquei a porta 27017, criei um volume para persistência dos dados e também estou usando variáveis de ambiente para inicializar o MongoDB com o usuário root.
 
-```bash
-#Criando um volume
-docker volume create mongodb-vol
-# Cria uma variável para setar a tag do mongo que irá rodar
-export MONGODB_VERSION=6.0-ubi8
-# Executa o container
-docker run --name mongodb -d -p 27017:27017 -v mongodb-vol:/data/db -e MONGO_INITDB_ROOT_USERNAME=user -e MONGO_INITDB_ROOT_PASSWORD=pass mongodb/mongodb-community-server:$MONGODB_VERSION
-```
+Criando um volume:
+
+`docker volume create mongodb-vol`
+
+Cria uma variável para setar a tag do mongo que irá rodar:
+
+`export MONGODB_VERSION=6.0-ubi8`
+
+Executa o container:
+
+`docker run --name mongodb -d -p 27017:27017 -v mongodb-vol:/data/db -e MONGO_INITDB_ROOT_USERNAME=user -e MONGO_INITDB_ROOT_PASSWORD=pass mongodb/mongodb-community-server:$MONGODB_VERSION`
 
 ## Instalando o Compass
 
@@ -43,13 +46,14 @@ Em seguida instale o pacote baixado
 
 ## Conceitos
 
-No mongoDb não existe o conceito de tabela, o que se guarda são collections
+No mongoDb não existe o conceito de tabela, o que se guarda são *documents* dentro de *collections*.
 
-Relacionamento entre Collections
- One to Many
- Many to Many
- One to One
- Subdocuments
+Existem os seguintes tipos de relacionamento entre Collections
+
+* One to Many
+* Many to Many
+* One to One
+* Subdocuments
 
 Mongoose - um ODM, ou seja um framework para se trabalhar com o MongoDB de uma forma mais simplista
 
@@ -57,26 +61,39 @@ Na minha máquina o MongoDB já foi instalado, o passo a passo está no arquivo 
 Para testar não para o terminal. Utilize o aplicativo MongoDB Compass que foi instalado junto com a aplicação.
 No próprio aplicativo já existe um MongoSh, que é o shell para o mongo. se quiser ver funcionando rode o seguinte comando
 
-Para listar os bancos de dados
-show dbs
+## Comandos
 
-Para trocar de banco de dados
-use nome-banco
+Para listar os bancos de dados
+
+`show dbs`
+
+Para criar um banco ou trocar de banco de dados
+
+`use nome-banco`
 
 Para obter informações sobre as coleções presentes no banco
-db.getCollectionInfos() para uma listagem mais detalhada
-db.getCollectionNames() para um array com os nome
+
+`db.getCollectionInfos()`
+
+Para retornar um array com os nomes das *collections*:
+
+`db.getCollectionNames()`
+
+Para criar ou acessar uma collection basta usar o comando db.nome_colecao
+
+O exemplo abaixo cria um banco, uma coleção e insere um document dentro. Em seguida pede para listar todos os documents da coleção.
 
 use novoBanco
 db.novaColecao.insertOne({nome: "Jeann"})
 db.novaColecao.find()
+
 mongoimport <arquivo> -d <database> -c <collection>
 mongoexport -c <collection> -d <database> -o <output>
 mongodump -d <banco> -o <diretorio>
 mongorestore <diretorio>
 
 use novoBanco
-db.novaColecao.insertOne({nome: "Jeann"})
+db.novaColecao.insertOne({nome: "Jeann", idade: 40})
 db.novaColecao.find()
 mongodump -d novoBanco -o novobancodir
 db.dropDatabase()

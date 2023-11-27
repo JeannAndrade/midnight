@@ -2,13 +2,13 @@
 layout: internal
 ---
 
-# Guia rápido do aplicativos a se instalar no Ubuntu
+# Guia rápido do aplicativos a se instalar no Ubuntu 23.10
 
 ## Navegador
 
 Utilizo o Microsoft Edge, então vou começar por ele já que muita coisa depende de senhas e favoritos já cadastrados na minha conta.
 
-Instalação do Microsoft Edge
+Instalação do programa curl
 
 1. `sudo apt install curl`
 1. `curl <https://packages.microsoft.com/keys/microsoft.asc> | gpg --dearmor > microsoft.gpg`
@@ -39,6 +39,55 @@ Instale o VS Code a partir da loja e faça login para sincronizar
 ## Oh My Zsh
 
 Siga o [passo a passo](https://jeannandrade.github.io/content/linux/terminal/index.html#instalando-o-oh-my-zsh-no-linux) para instalar
+
+## Ruby
+
+O Ruby é utilizado pelo Jekyll, que motor responsável por converter Markdown em HTML nas páginas do GitHub. Para rodar o site localmente e poder fazer os testes antes de publicar, é preciso ter um Ruby instalado.
+
+A fonte do conteúdo abaixo é [esse site](https://gorails.com/setup/ubuntu/23.10#comments).
+
+Primeiro é preciso instalar algumas dependências para compilar o Ruby
+
+`sudo apt-get install git-core zlib1g-dev build-essential libssl-dev libreadline-dev libyaml-dev libsqlite3-dev sqlite3 libxml2-dev libxslt1-dev libcurl4-openssl-dev software-properties-common libffi-dev`
+
+Depois é preciso instalar o [asdf](https://asdf-vm.com/), que é um gerenciador de versões.
+
+```bash
+cd
+git clone https://github.com/excid3/asdf.git ~/.asdf
+echo '. "$HOME/.asdf/asdf.sh"' >> ~/.zshrc
+echo '. "$HOME/.asdf/completions/asdf.bash"' >> ~/.zshrc
+echo 'legacy_version_file = yes' >> ~/.asdfrc
+echo 'export EDITOR="code --wait"' >> ~/.zshrc
+exec $SHELL
+```
+
+Então podemos instalar plugins ASDF para cada idioma que queremos usar.
+
+```bash
+# Adicine o pluging para trabalhar com o ruby
+asdf plugin add ruby
+```
+
+E finalmente instale o Ruby
+
+```bash
+# Instale o Ruby
+asdf install ruby 3.2.2
+# Configure esse versão como uma versão global
+asdf global ruby 3.2.2
+
+# Update to the latest Rubygems version
+gem update --system
+
+# Para verificar o que foi instalado
+which ruby
+#=> /home/username/.asdf/shims/ruby
+
+# Para ver a versão instalada
+ruby -v
+#=> ruby 3.2.2 (2023-03-30 revision e51014f9c0) [x86_64-linux]
+```
 
 ## Calibre
 
